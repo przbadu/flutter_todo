@@ -1,6 +1,10 @@
 # flutter_todo
 
-A new Flutter project.
+Todo app
+
+![](https://github.com/przbadu/flutter_todo/blob/master/demo.gif)
+
+
 
 ## Getting Started
 
