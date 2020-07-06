@@ -27,6 +27,33 @@ class _TodoListState extends State<TodoList> {
     }
   }
 
+  void _removeTodoItem(int index) {
+    setState(() => _todoItems.removeAt(index));
+  }
+
+  void _promptRemoveTodoItem(int index) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Mark "${_todoItems[index]}" as done?'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text('Cancel'),
+              ),
+              new FlatButton(
+                child: Text('Mark as Done'),
+                onPressed: () {
+                  _removeTodoItem(index);
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+
   // Build the whole list of todo items
   Widget _buildTodoList() {
     return ListView.builder(itemBuilder: (context, index) {
@@ -35,16 +62,17 @@ class _TodoListState extends State<TodoList> {
       // than the number of todo items we have. So, we need to check the index
       // is OK.
       if (index < _todoItems.length) {
-        return _buildTodoItem(_todoItems[index]);
+        return _buildTodoItem(_todoItems[index], index);
       }
       return null;
     });
   }
 
   // build a single todo item
-  Widget _buildTodoItem(String todoText) {
+  Widget _buildTodoItem(String todoText, int index) {
     return ListTile(
       title: Text(todoText),
+      onTap: () => _promptRemoveTodoItem(index),
     );
   }
 
